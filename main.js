@@ -1,9 +1,34 @@
 var board = new Array();
-var score = -1;
+var score = 0;
+
+var startx = 0;
+var starty = 0;
+var endx = 0;
+var endy = 0;
+
 
 $(document).ready(function(){
+    prepareMobile();
     newGame();
 });
+
+function prepareMobile() {
+    if(documentWidth > 500){
+        containerWidth = 500;
+        cellSpace = 20;
+        cellSideLength = 100;
+        console.log("not mobile");
+    }
+
+    $('#grid-container').css('width', containerWidth - 2*cellSpace);
+    $('#grid-container').css('height', containerWidth - 2*cellSpace);
+    $('#grid-container').css('padding', cellSpace);
+    $('#grid-container').css('border-radius', 0.02*containerWidth);
+
+    $('.grid-cell').css('width', cellSideLength);
+    $('.grid-cell').css('height', cellSideLength);
+    $('.grid-cell').css('border-radius', 0.02*cellSideLength);
+}
 
 function newGame(){
     // Initialise grid
@@ -29,8 +54,9 @@ function init() {
         for (var j = 0; j < 4; j ++)
             board[i][j] = 0;
     }
-
+    score = 0;
     updateBoardView();
+
 }
 
 function updateBoardView() {
@@ -43,20 +69,22 @@ function updateBoardView() {
             if(board[i][j] == 0) {
                 nc.css('width', '0px');
                 nc.css('height', '0px');
-                nc.css('top', getPosTop(i,j) + 50);
-                nc.css('left', getPosLeft(i,j) + 50);
+                nc.css('top', getPosTop(i,j) + cellSideLength/2);
+                nc.css('left', getPosLeft(i,j) + cellSideLength/2);
             } else {
-                nc.css('width', '100px');
-                nc.css('height', '100px');
+                nc.css('width', cellSideLength);
+                nc.css('height', cellSideLength);
                 nc.css('top', getPosTop(i,j));
                 nc.css('left', getPosLeft(i,j));                
                 nc.css('background-color', getNumBgColor( board[i][j]));
                 nc.css('color', getNumColor(board[i][j]));
-                nc.text(yd[board[i][j]]);
+                nc.text(wkx[board[i][j]]);
             }
         }
     }
-    score++;
+    $(".number-cell").css('line-height', cellSideLength + 'px');
+    $(".number-cell").css('font-size', 0.3*cellSideLength + 'px');
+    $('.number-cell').css('border-radius', 0.02*cellSideLength);
     $("#score").text(score);
 }
 
@@ -68,11 +96,24 @@ function generateOneNum() {
     var randx = parseInt(Math.floor(Math.random() * 4));
     var randy = parseInt(Math.floor(Math.random() * 4));
 
-    while (true) {
+    var times = 0;
+    while (times < 50) {
         if (board[randx][randy] == 0)
             break;
         randx = parseInt(Math.floor(Math.random() * 4));
         randy = parseInt(Math.floor(Math.random() * 4));       
+        times++;
+    }
+
+    if(times == 50) {
+        for(var i = 0; i < 4; i++)
+            for(var j = 0; j < 4; j++){
+                if(board[i][j] == 0){
+                    randx = i;
+                    randy = j;
+                    break;
+                }
+            }
     }
     
     // generate random number
@@ -87,30 +128,79 @@ $(document).keydown( function ( event ) {
     switch(event.keyCode){
         case 37: // left
             if (moveL()) {
-                generateOneNum();
+                setTimeout("generateOneNum()", 210);
                 isOver();
             };
             break;
         case 38: // up
             if (moveU()) {
-                generateOneNum();
+                setTimeout("generateOneNum()", 210);
                 isOver();
             };
             break;
         case 39: // right
             if (moveR()) {
-                generateOneNum();
+                setTimeout("generateOneNum()", 210);
                 isOver(); 
             };
             break;
         case 40: // down
             if (moveD()) {
-                generateOneNum();
+                setTimeout("generateOneNum()", 210);
                 isOver();   
             };
             break;
         default:
             break;
+    }
+});
+
+document.addEventListener('touchstart', function ( event ) {
+    startx = event.touches[0].pageX; 
+    starty = event.touches[0].pageY;
+});
+
+document.addEventListener('touchend', function ( event ) {
+    endx = event.changedTouches[0].pageX;
+    endy = event.changedTouches[0].pageY;
+
+    var deltax = endx - startx;
+    var deltay = endy - starty;
+
+    if(Math.abs(deltax)<0.3*documentWidth && Math.abs(deltay)<0.3*documentWidth){
+        console.log("click");
+        return;
+    }
+    console.log("move");
+
+    if(Math.abs(deltax)>=Math.abs(deltay)){
+        // right
+        if(deltax > 0) {
+            if (moveR()) {
+                setTimeout("generateOneNum()", 210);
+                isOver(); 
+            };
+        // left
+        }else{
+            if (moveL()) {
+                setTimeout("generateOneNum()", 210);
+                isOver();
+            };
+        }
+    }else{
+        // down
+        if(deltay > 0) {
+            if (moveD()) {
+                setTimeout("generateOneNum()", 210);
+                isOver();   
+            };
+        // up
+        }else {
+            if (moveU()) {
+                setTimeout("generateOneNum()", 210);
+                isOver();
+            };
+        }
     }
 });
 
@@ -134,6 +224,7 @@ function moveL() {
                         // add
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
+                        score += board[i][k];
                         continue;
                     } 
                 }
@@ -164,6 +255,7 @@ function moveR() {
                         // add
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
+                        score += board[i][k];
                         continue;
                     } 
                 }
@@ -194,6 +286,7 @@ function moveU() {
                         // add
                         board[k][j] += board[i][j];
                         board[i][j] = 0;
+                        score += board[k][j];
                         continue;
                     } 
                 }
@@ -224,6 +317,7 @@ function moveD() {
                         // add
                         board[k][j] += board[i][j];
                         board[i][j] = 0;
+                        score += board[k][j];
                         continue;
                     } 
                 }
