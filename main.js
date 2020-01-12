@@ -52,7 +52,7 @@ function updateBoardView() {
                 nc.css('left', getPosLeft(i,j));                
                 nc.css('background-color', getNumBgColor( board[i][j]));
                 nc.css('color', getNumColor(board[i][j]));
-                nc.text(caren[board[i][j]]);
+                nc.text(yd[board[i][j]]);
             }
         }
     }
@@ -83,6 +83,7 @@ function generateOneNum() {
 }
 
 $(document).keydown( function ( event ) {
+    event.preventDefault();
     switch(event.keyCode){
         case 37: // left
             if (moveL()) {
@@ -148,7 +149,7 @@ function moveR() {
         return false;
     }
     for (var i = 0; i < 4; i++){
-        for (var j = 0; j < 3; j++){
+        for (var j = 2; j >= 0; j--){
             if(board[i][j] != 0) {
                 for (var k = 3; k > j; k--){
                     if(board[i][k] == 0 && noBlockH(i, j, k, board)) {
@@ -207,7 +208,7 @@ function moveD() {
     if(!canMoveD(board)){
         return false;
     }
-    for (var i = 0; i < 3; i++){
+    for (var i = 2; i >= 0; i--){
         for (var j = 0; j < 4; j++){
             if(board[i][j] != 0) {
                 for (var k = 3; k > i ; k--){

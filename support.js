@@ -1,3 +1,4 @@
+console.log("load support");
 function getPosTop(i,j) {
     return 20 + i * 120;
 }

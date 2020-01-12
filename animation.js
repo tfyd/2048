@@ -16,7 +16,7 @@ function showNum(i, j, n) {
 
     numberCell.css('background-color', getNumBgColor(n));
     numberCell.css('color', getNumColor(n));
-    numberCell.text(caren[n]);
+    numberCell.text(yd[n]);
 
     numberCell.animate({
         width: '100px',
