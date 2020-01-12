@@ -1,5 +1,5 @@
 var board = new Array();
-var score = 0;
+var score = -1;
 
 $(document).ready(function(){
     newGame();
@@ -18,11 +18,6 @@ function init() {
     for(var i = 0; i < 4; i++){
         for (var j = 0; j < 4; j++){
             var gridCell = $("#grid-cell-" + i + "-" + j);
-            /*if(gridCell>0){
-                alert("exist");
-            } else {
-                alert("not found");
-            }*/
             console.log("gridCell = " + gridCell);
             gridCell.css('top', getPosTop(i, j));
             gridCell.css('left', getPosLeft(i, j));
@@ -57,10 +52,12 @@ function updateBoardView() {
                 nc.css('left', getPosLeft(i,j));                
                 nc.css('background-color', getNumBgColor( board[i][j]));
                 nc.css('color', getNumColor(board[i][j]));
-                nc.text(board[i][j]);
+                nc.text(caren[board[i][j]]);
             }
         }
     }
+    score++;
+    $("#score").text(score);
 }
 
 function generateOneNum() {
@@ -213,7 +210,7 @@ function moveD() {
     for (var i = 0; i < 3; i++){
         for (var j = 0; j < 4; j++){
             if(board[i][j] != 0) {
-                for (var k = 4; k > i ; k--){
+                for (var k = 3; k > i ; k--){
                     if(board[k][j] == 0 && noBlockV(j,i, k, board)) {
                         // move
                         showMove(i, j, k, j);

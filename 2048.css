@@ -36,6 +36,12 @@ header p {
     margin: 20px auto;
 }
 
+.mytext {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin: 10px auto;
+}
+
 #grid-container {
     width:460px;
     height:460px;
@@ -62,7 +68,7 @@ header p {
 
     font-family: Arial;
     font-weight: bold;
-    font-size: 60px;
+    font-size: 20px;
     line-height: 100px;
     text-align: center;
 

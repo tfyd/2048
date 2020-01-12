@@ -1,5 +1,3 @@
-console.log("load support");
-
 function getPosTop(i,j) {
     return 20 + i * 120;
 }
@@ -10,19 +8,19 @@ function getPosLeft(i,j) {
 
 function getNumBgColor( number ) {
     switch( number ){
-        case 2: return "#a2e1d4"; break;
-        case 4: return "#2ae0c8"; break;
-        case 8: return "#acf6ef"; break;
-        case 16:return "#cbf5fb"; break;
-        case 32: return "#bdf3d4"; break;
-        case 64:return "#e6e2c3";break;
-        case 128:return "#e3c887";break;
-        case 256:return "#fad8be";break;
-        case 512:return "#fbb8ac";break;
-        case 1024:return "#fe6673";break;
-        case 2048:return "#973c3f";break;
-        case 4096:return "#7d5886";break;
-        case 8192:return "#6b473c";break;
+        case 2: return "#E8F6F3"; break;
+        case 4: return "#D1F2EB"; break;
+        case 8: return "#A3E4D7"; break;
+        case 16:return "#76D7C4"; break;
+        case 32: return "#48C9B0"; break;
+        case 64:return "#1ABC9C";break;
+        case 128:return "#17A589";break;
+        case 256:return "#148F77";break;
+        case 512:return "#117864";break;
+        case 1024:return "#0E6251";break;
+        case 2048:return "#117A65";break;
+        case 4096:return "#0E6655";break;
+        case 8192:return "#0B5345";break;
     }
 }
 
