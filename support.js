@@ -30,9 +30,9 @@ function getNumBgColor( number ) {
 }
 
 function getNumColor( number ) {
-    if (number <= 4)
+    if (number < 128)
         return "#6b473c";
-    return "#6b473c";
+    return "white";
 }
 
 function noSpace( board ) {
