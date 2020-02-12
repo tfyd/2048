@@ -17,7 +17,7 @@ function prepareMobile() {
         containerWidth = 500;
         cellSpace = 20;
         cellSideLength = 100;
-        console.log("not mobile");
+        console.log("not mobile!");
     }
 
     $('#grid-container').css('width', containerWidth - 2*cellSpace);
